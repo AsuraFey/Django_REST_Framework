@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import generics, mixins
 from rest_framework.decorators import api_view
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -12,8 +12,6 @@ class ProductDetailAPIView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
-
-
 
 
 class ProductUpdateAPIView(generics.UpdateAPIView):
@@ -67,3 +65,21 @@ def product_alt_view(request, pk=None, *args, **kwargs):
             print(serializer.data)
             return Response(serializer.data)
         return Response({"invalid": "not good data"}, status=400)
+
+
+class ProductMixinView(mixins.CreateModelMixin, mixins.ListModelMixin,
+                       generics.GenericAPIView, mixins.RetrieveModelMixin,
+                    ):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_field = 'pk'
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        print(args, kwargs)
+        pk = kwargs.get("pk")
+        if pk is not None:
+            return self.retrieve(request, *args, **kwargs)
+        return self.list(request, *args, **kwargs)

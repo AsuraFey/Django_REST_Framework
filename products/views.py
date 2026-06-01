@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from .permissions import IsStaffEditorPermission
 from .models import Product
 from .serializers import ProductSerializer
+from api.authentication import TokenAuthentication
 
 
 # Create your views here.
@@ -38,7 +39,10 @@ class ProductDeleteAPIView(generics.DestroyAPIView):
 class ProductListCreateAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    authentication_classes = [authentication.SessionAuthentication]
+    authentication_classes = [
+        authentication.SessionAuthentication,
+        authentication.TokenAuthentication,
+    ]
     permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
 
     def perform_create(self, serializer):

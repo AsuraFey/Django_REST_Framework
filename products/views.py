@@ -41,7 +41,7 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = ProductSerializer
     authentication_classes = [
         authentication.SessionAuthentication,
-        authentication.TokenAuthentication,
+        TokenAuthentication,
     ]
     permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
 

@@ -4,6 +4,6 @@ from .views import api_home
 
 
 urlpatterns = [
-    path('auth/', obtain_auth_token),
+    path('api/auth/', obtain_auth_token),
     path('', api_home, name="home")
 ]

@@ -1,6 +1,6 @@
 import requests
 
-
+headers = {"Authorization": 'Bearer 6a9eb2a2a982ae6fcd189d93dbb116fbcf7a94ee'}
 endpoint = "http://127.0.0.1:8000/products/"
 
 
@@ -12,7 +12,7 @@ data = {
     # 'discount':,
 }
 
-get_response = requests.post(endpoint, json=data)
+get_response = requests.post(endpoint, json=data, headers=headers)
 
 print(get_response.status_code)
 print(get_response.json())
